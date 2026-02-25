@@ -3,3 +3,7 @@
 .perspective {
   perspective: 1000px;
 }
+
+* {
+  font-family: "Parisienne", cursive;
+}

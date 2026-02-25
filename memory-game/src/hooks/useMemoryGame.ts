@@ -4,7 +4,6 @@ import { useReducer } from "react";
 export type CardType = {
   id: string;
   image: string;
-  isFlipped: boolean;
   isMatched: boolean;
 };
 
@@ -44,8 +43,8 @@ function gameReducer(state: GameState, action: Action): GameState {
       const card = state.cards[action.payload];
 
       if (!card) return state;
-
-      if (card.isFlipped || card.isMatched) return state;
+      if (card.isMatched) return state;
+      if (state.flippedIndexes.includes(action.payload)) return state;
 
       return {
         ...state,
@@ -56,10 +55,38 @@ function gameReducer(state: GameState, action: Action): GameState {
     case "CHECK_MATCH": {
       if (state.flippedIndexes.length < 2) return state;
 
+      const [firstIndex, secondIndex] = state.flippedIndexes;
+
+      const firstCard = state.cards[firstIndex];
+      const secondCard = state.cards[secondIndex];
+
+      if (!firstCard || !secondCard) return state;
+
+      const isMatch = firstCard.image === secondCard.image;
+
+      const updatedCards = [...state.cards];
+      let matchedPairs = state.matchedPairs;
+
+      if (isMatch) {
+        updatedCards[firstIndex] = {
+          ...firstCard,
+          isMatched: true,
+        };
+
+        updatedCards[secondIndex] = {
+          ...secondCard,
+          isMatched: true,
+        };
+
+        matchedPairs += 1;
+      }
+
       return {
         ...state,
+        cards: updatedCards,
         moves: state.moves + 1,
         isChecking: true,
+        matchedPairs,
       };
     }
 

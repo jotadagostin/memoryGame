@@ -31,7 +31,7 @@ export function Card({ card, isFlipped, onClick }: CardProps) {
       >
         {/* Front */}
         <div
-          className="absolute w-full h-full bg-white rounded-xl shadow-md flex items-center justify-center text-2xl font-bold"
+          className="absolute w-full h-full bg-white rounded-xl shadow-md flex items-center justify-center text-blue-600 text-2xl font-bold"
           style={{ backfaceVisibility: "hidden" }}
         >
           ?
@@ -48,7 +48,7 @@ export function Card({ card, isFlipped, onClick }: CardProps) {
           <img
             src={card.image}
             alt="Memory card"
-            className="w-12 h-12 object-contain"
+            className="w-25 h-22 object-contain"
           />
         </div>
       </div>
