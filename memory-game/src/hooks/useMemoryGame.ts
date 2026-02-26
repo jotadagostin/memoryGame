@@ -14,6 +14,7 @@ type GameState = {
   moves: number;
   isChecking: boolean;
   matchedPairs: number;
+  elapsedTime: number;
 };
 
 //define the actions:
@@ -21,7 +22,8 @@ type Action =
   | { type: "FLIP_CARD"; payload: number }
   | { type: "CHECK_MATCH" }
   | { type: "RESET_TURN" }
-  | { type: "RESET_GAME"; payload: CardType[] };
+  | { type: "RESET_GAME"; payload: CardType[] }
+  | { type: "INCREMENT_TIME" };
 
 //Initial state:
 const initialState: GameState = {
@@ -30,6 +32,7 @@ const initialState: GameState = {
   moves: 0,
   isChecking: false,
   matchedPairs: 0,
+  elapsedTime: 0,
 };
 
 //Reducer skeleton base:
@@ -105,6 +108,14 @@ function gameReducer(state: GameState, action: Action): GameState {
         moves: 0,
         isChecking: false,
         matchedPairs: 0,
+        elapsedTime: 0,
+      };
+    }
+
+    case "INCREMENT_TIME": {
+      return {
+        ...state,
+        elapsedTime: state.elapsedTime + 1,
       };
     }
 

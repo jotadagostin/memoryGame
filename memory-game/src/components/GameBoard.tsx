@@ -15,7 +15,7 @@ export default function GameBoard() {
 
   const shuffledCards = generateShuffledCards(images);
 
-  const { cards, flippedIndexes, moves, matchedPairs, dispatch } =
+  const { cards, flippedIndexes, moves, matchedPairs, elapsedTime, dispatch } =
     useMemoryGame(shuffledCards);
 
   useEffect(() => {
@@ -28,6 +28,19 @@ export default function GameBoard() {
     }
   }, [flippedIndexes, dispatch]);
 
+  useEffect(() => {
+    const totalPairs = images.length;
+    const isGameOver = matchedPairs === totalPairs;
+
+    if (isGameOver) return;
+
+    const timer = setInterval(() => {
+      dispatch({ type: "INCREMENT_TIME" });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [matchedPairs, dispatch, images.length]);
+
   const totalPairs = images.length;
 
   const handleReset = () => {
@@ -39,8 +52,8 @@ export default function GameBoard() {
   const isGameOver = matchedPairs === totalPairs;
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="grid grid-cols-4 gap-4">
+    <div className="flex flex-col items-center px-4 w-full max-w-md sm:max-w-2xl">
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-4">
         {cards.map((card, index) => (
           <Card
             key={card.id}
@@ -55,6 +68,7 @@ export default function GameBoard() {
         moves={moves}
         matchedPairs={matchedPairs}
         totalPairs={totalPairs}
+        elapsedTime={elapsedTime}
         onReset={handleReset}
         onRestart={handleReset}
         isGameOver={isGameOver}
