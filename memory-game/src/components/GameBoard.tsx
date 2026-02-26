@@ -52,7 +52,7 @@ export default function GameBoard() {
   const isGameOver = matchedPairs === totalPairs;
 
   return (
-    <div className="flex flex-col items-center px-4 w-full max-w-md sm:max-w-2xl">
+    <div className="flex flex-col items-center  w-full max-w-md sm:max-w-2xl ">
       <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-4">
         {cards.map((card, index) => (
           <Card
